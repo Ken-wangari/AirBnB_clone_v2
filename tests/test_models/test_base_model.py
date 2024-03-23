@@ -4,6 +4,7 @@ from models.base_model import BaseModel
 import unittest
 import datetime
 from uuid import UUID
+import pycodestyle
 import json
 import os
 
@@ -20,6 +21,21 @@ class test_basemodel(unittest.TestCase):
     def setUp(self):
         """ """
         pass
+
+    class TestPEP8(unittest.TestCase):
+    """A class to test PEP8 compliance in the base_model file"""
+
+    def test_pycodestyle(self):
+        """
+        Test PEP8 format
+        """
+        pep8style = pycodestyle.StyleGuide(quiet=True)
+        result = pep8style.check_files(['models/base_model.py'])
+        self.assertEqual(
+            result.total_errors,
+            0,
+            "Found code style errors (and warnings)."
+        )
 
     def tearDown(self):
         try:
@@ -97,3 +113,7 @@ class test_basemodel(unittest.TestCase):
         n = new.to_dict()
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
+
+
+if __name__ == "__main__":
+    unittest.main()
